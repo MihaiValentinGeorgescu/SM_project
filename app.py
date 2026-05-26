@@ -3,10 +3,11 @@ from google import genai
 from google.genai import types
 import yaml
 
-# Initialize the Gemini Client
-client = genai.Client(api_key="paste here token")
+# initialize with gemini token
+client = genai.Client(api_key="paste token")
 
-# --- SYSTEM PROMPTS ---
+# system promts: given to AI so it knows how to behave before we give instructions to it
+# With those prompts the AI will not use conversational word but will go straight to point
 K8S_GENERATE_PROMPT = """
 You are an expert Kubernetes Platform Engineer and DevOps assistant. 
 Your job is to generate highly optimized, secure, and production-ready Kubernetes manifests based on user requests.
@@ -19,6 +20,7 @@ Rules:
 5. Do not include long conversational fluff. Be direct and technical.
 """
 
+# this is the prompt for the debug session in the browser
 K8S_DEBUG_PROMPT = """
 You are an expert Kubernetes troubleshooter. The user will provide an error log, a `kubectl` error statement, or a status description (like CrashLoopBackOff, ImagePullBackOff, CreateContainerConfigError).
 
@@ -29,7 +31,7 @@ Your job is to:
 Be direct, highly technical, and concise. Do not use conversational filler.
 """
 
-# --- PAGE SETUP ---
+# this configures browser tab metadata.
 st.set_page_config(page_title="K8s AI Toolkit", page_icon="☸️", layout="wide")
 st.title("☸️ Kubernetes AI Developer Toolkit")
 st.caption("A simple AI-powered suite to generate, validate, and debug your Kubernetes manifests.")
@@ -37,7 +39,7 @@ st.caption("A simple AI-powered suite to generate, validate, and debug your Kube
 # Create three distinct tabs for our tools
 tab1, tab2, tab3 = st.tabs(["✨ Generate Manifest", "✅ Validate YAML", "🔍 Debug K8s Errors"])
 
-# --- TAB 1: GENERATE MANIFEST ---
+# tab 1: generate manifest
 with tab1:
     col1, col2 = st.columns([1, 1])
     
@@ -60,13 +62,14 @@ with tab1:
     with col2:
         st.subheader("Generated Manifest & Suggestions")
         if generate_btn:
+            # uses a prompt but with our indications about image, port, name and other requiremnts
             user_prompt = f"""
             Please create a Kubernetes {manifest_type} for an application named '{app_name}'.
             - Container Image: {image_name}
             - Container Port: {container_port}
             - Additional Requirements: {additional_details}
             """
-            
+            # send the prompt to gemini engine
             with st.spinner("Gemini is analyzing and generating manifests..."):
                 try:
                     response = client.models.generate_content(
@@ -81,7 +84,7 @@ with tab1:
                 except Exception as e:
                     st.error(f"An error occurred: {e}")
 
-# --- TAB 2: VALIDATE YAML ---
+# tab 2: validate yaml
 with tab2:
     st.subheader("Syntax & Structural Validator")
     st.write("Paste your raw YAML manifest below to check for structural formatting or indentation issues.")
@@ -112,7 +115,7 @@ with tab2:
                 st.code(str(exc), language="text")
                 st.warning("Tip: Check your indentation spaces carefully. Kubernetes YAML requires strict space usage; tabs are not allowed.")
 
-# --- TAB 3: DEBUG K8S ERRORS ---
+# tab 3: debug tab
 with tab3:
     st.subheader("Kubernetes Issue Log Debugger")
     st.write("Paste your cryptic error output from `kubectl get events`, `kubectl logs`, or `kubectl describe` to get plain-text root cause analysis.")
