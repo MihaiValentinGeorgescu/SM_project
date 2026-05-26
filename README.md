@@ -40,7 +40,7 @@ Username: admin
 
 Password: password123
 
-🛠️ Technologies Used
+### Technologies Used
 
 Streamlit: Builds the web page, buttons, and text boxes using only Python. No HTML or JavaScript needed.
 
@@ -58,7 +58,7 @@ Strict AI (Temperature = 0.2): We set the AI "temperature" very low. This stops 
 
 Secret Rules (System Prompts): Before you even type a message, the app secretly tells the AI: "You are an expert. Only give me code. Do not say hello or use chatbot filler words."
 
-💾 Database Structure & CRUD
+### Database Structure & CRUD
 
 The app does not use a heavy database like MySQL. Instead, it saves your data directly in the computer's temporary memory (RAM) using Streamlit's session_state.
 
@@ -72,13 +72,13 @@ Update: If you edit the text in the sidebar and click "Save", the app searches t
 
 Delete: If you click "Delete", the app finds that ID, removes it from the list entirely, and refreshes the screen.
 
-🧠 AI Features Explained
+### AI Features Explained
 
 Code Generator: When you ask for an app, the AI doesn't just give you the bare minimum. It actively suggests best practices, like telling you to add memory limits or health checks so your app doesn't crash.
 
 Error Troubleshooter: Terminal errors are hard to read. You paste them in, and the AI translates them. It tells you exactly why it broke and gives you the exact kubectl command to type next to fix it.
 
-🔍 How Embeddings/RAG Work (Future Plan)
+### How Embeddings/RAG Work (Future Plan)
 
 Right now: The app just uses the AI's general knowledge. It does not read your private company files.
 
@@ -90,7 +90,7 @@ When you ask a question, the app will search those rules first.
 
 It will give those rules to the AI, so the AI writes code that perfectly matches your company's security policies.
 
-🚀 API Limitations & Future Improvements
+### API Limitations & Future Improvements
 
 Current Weaknesses
 
