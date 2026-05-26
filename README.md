@@ -21,24 +21,26 @@ Make sure you have Python installed on your computer.
 2. Install required tools
 
 Open your terminal and run this command to download the tools we need:
-
+```
 pip install streamlit google-genai pyyaml
+```
 
 
 3. Start the app
 
 Go to the folder where your app.py file is and run:
-
+```
 streamlit run app.py
-
+```
 
 4. Login Details
 
 When the app opens, it asks for a login. Use these details to get in:
-
+```
 Username: admin
 
 Password: password123
+```
 
 ### Technologies Used
 
